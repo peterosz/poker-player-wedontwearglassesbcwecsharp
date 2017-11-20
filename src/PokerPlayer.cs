@@ -2,12 +2,13 @@
 using System.Linq;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 namespace Nancy.Simple
 {
 	public static class PokerPlayer
 	{
-		public static readonly string VERSION = "Beat yo' ass #1.5";
+		public static readonly string VERSION = "Beat yo' ass #1.6";
 
 		public static int BetRequest(JObject gameState)
 		{
@@ -15,7 +16,7 @@ namespace Nancy.Simple
             {
 
                 int playerId = gameState.GetValue("in_action").ToObject<int>();
-                var players = gameState.GetValue("players").Values().ToList();
+                List<JToken> players = gameState.GetValue("players").Values().ToList();
 
                 int currentBuyIn = gameState.GetValue("current_buy_in").ToObject<int>();
                 int minRaise = gameState.GetValue("minumum_raise").ToObject<int>();
