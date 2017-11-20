@@ -8,7 +8,7 @@ namespace Nancy.Simple
 {
 	public static class PokerPlayer
 	{
-		public static readonly string VERSION = "Beat yo' ass #1.9.4";
+		public static readonly string VERSION = "Beat yo' ass #1.9.5";
 
 		public static int BetRequest(JObject gameState)
 		{
@@ -28,7 +28,7 @@ namespace Nancy.Simple
                 JToken ourPlayer = players[playerId];
                 Console.Error.WriteLine("ourPlayer ok");
 
-                var ourHand = ourPlayer["hole_cards"].ToList();
+                var ourHand = ourPlayer.SelectToken("hole_cards").Values().ToList();
                 Console.Error.WriteLine("ourHand ok");
                 var firstCardRank = ourHand[0]["rank"].ToObject<string>();
                 Console.Error.WriteLine("firstcard ok");
