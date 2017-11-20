@@ -6,7 +6,7 @@ namespace Nancy.Simple
 {
 	public static class PokerPlayer
 	{
-		public static readonly string VERSION = "Beat yo' ass #1.0";
+		public static readonly string VERSION = "Beat yo' ass #1.1";
 
 		public static int BetRequest(JObject gameState)
 		{
@@ -23,6 +23,12 @@ namespace Nancy.Simple
             var secondCardRank = ourHand[1].Value<JObject>().GetValue("rank").Value<string>();
 
             if (firstCardRank.Equals(secondCardRank))
+            {
+                return currentBuyIn - ourPlayer.GetValue("bet").Value<int>() + minRaise;
+            }
+
+            string[] highCards = new string[4] { "J", "K", "Q", "A" };
+            if (highCards.Contains(firstCardRank) || highCards.Contains(secondCardRank))
             {
                 return currentBuyIn - ourPlayer.GetValue("bet").Value<int>() + minRaise;
             }
