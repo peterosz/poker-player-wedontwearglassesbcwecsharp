@@ -8,7 +8,7 @@ namespace Nancy.Simple
 {
 	public static class PokerPlayer
 	{
-		public static readonly string VERSION = "Beat yo' ass #1.9.15";
+		public static readonly string VERSION = "Beat yo' ass #2.0";
 
 		public static int BetRequest(JObject gameState)
 		{
@@ -40,13 +40,13 @@ namespace Nancy.Simple
 
                 if (firstCardRank.Equals(secondCardRank))
                 {
-                    return currentBuyIn - ourPlayer["bet"].ToObject<int>() + minRaise;
+                    return currentBuyIn - gameState.SelectToken("players[" + playerId + "].bet").ToObject<int>() + minRaise;
                 }
 
                 string[] highCards = new string[4] { "J", "K", "Q", "A" };
                 if (highCards.Contains(firstCardRank) || highCards.Contains(secondCardRank))
                 {
-                    return currentBuyIn - ourPlayer["bet"].ToObject<int>() + minRaise;
+                    return currentBuyIn - gameState.SelectToken("players[" + playerId + "].bet").ToObject<int>() + minRaise;
                 }
 
             }
