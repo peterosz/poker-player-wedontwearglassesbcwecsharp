@@ -8,7 +8,7 @@ namespace Nancy.Simple
 {
 	public static class PokerPlayer
 	{
-		public static readonly string VERSION = "Beat yo' ass #2.1";
+		public static readonly string VERSION = "Beat yo' ass #2.1.1";
         private static bool weRaised;
 
 		public static int BetRequest(JObject gameState)
@@ -29,6 +29,7 @@ namespace Nancy.Simple
 
                 if(currentBuyIn > 0 && weRaised)
                 {
+                    Console.Error.WriteLine(currentBuyIn - gameState.SelectToken("players[" + playerId + "].bet").ToObject<int>());
                     return currentBuyIn - gameState.SelectToken("players[" + playerId + "].bet").ToObject<int>();
                 }
 
