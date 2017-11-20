@@ -7,7 +7,7 @@ namespace Nancy.Simple
 {
 	public static class PokerPlayer
 	{
-		public static readonly string VERSION = "Beat yo' ass #1.4";
+		public static readonly string VERSION = "Beat yo' ass #1.5";
 
 		public static int BetRequest(JObject gameState)
 		{
@@ -20,11 +20,14 @@ namespace Nancy.Simple
                 int currentBuyIn = gameState.GetValue("current_buy_in").ToObject<int>();
                 int minRaise = gameState.GetValue("minumum_raise").ToObject<int>();
 
-                JObject ourPlayer = players[playerId].Value<JObject>();
+                JObject ourPlayer = players[playerId].ToObject<JObject>();
 
                 var ourHand = ourPlayer.GetValue("hole_cards").Values().ToList();
-                var firstCardRank = ourHand[0].Value<JObject>().GetValue("rank").Value<string>();
-                var secondCardRank = ourHand[1].Value<JObject>().GetValue("rank").Value<string>();
+                var firstCardRank = ourHand[0].ToObject<JObject>().GetValue("rank").ToObject<string>();
+                var secondCardRank = ourHand[1].ToObject<JObject>().GetValue("rank").ToObject<string>();
+
+                Console.Error.WriteLine(firstCardRank);
+                Console.Error.WriteLine(secondCardRank);
 
                 if (firstCardRank.Equals(secondCardRank))
                 {
