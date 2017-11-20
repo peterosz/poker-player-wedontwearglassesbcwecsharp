@@ -8,7 +8,7 @@ namespace Nancy.Simple
 {
 	public static class PokerPlayer
 	{
-		public static readonly string VERSION = "Beat yo' ass #1.9.2";
+		public static readonly string VERSION = "Beat yo' ass #1.9.3";
 
 		public static int BetRequest(JObject gameState)
 		{
@@ -29,8 +29,11 @@ namespace Nancy.Simple
                 Console.Error.WriteLine("ourPlayer ok");
 
                 var ourHand = ourPlayer["hole_cards"].Values().ToList();
+                Console.Error.WriteLine("ourHand ok");
                 var firstCardRank = ourHand[0]["rank"].ToObject<string>();
+                Console.Error.WriteLine("firstcard ok");
                 var secondCardRank = ourHand[1]["rank"].ToObject<string>();
+                Console.Error.WriteLine("secondcard ok");
 
                 Console.Error.WriteLine(firstCardRank);
                 Console.Error.WriteLine(secondCardRank);
