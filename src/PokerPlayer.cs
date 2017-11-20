@@ -8,7 +8,8 @@ namespace Nancy.Simple
 {
 	public static class PokerPlayer
 	{
-		public static readonly string VERSION = "Beat yo' ass #2.0";
+		public static readonly string VERSION = "Beat yo' ass #2.1";
+        private static bool weRaised;
 
 		public static int BetRequest(JObject gameState)
 		{
@@ -16,38 +17,40 @@ namespace Nancy.Simple
             {
 
                 int playerId = gameState["in_action"].ToObject<int>();
-                Console.Error.WriteLine("playerId ok");
-                List<JToken> players = gameState["players"].Values().ToList();
-                Console.Error.WriteLine("players ok");
+                List<JToken> commCards = gameState["community_cards"].Values().ToList();
 
                 int currentBuyIn = gameState["current_buy_in"].ToObject<int>();
-                Console.Error.WriteLine("currentBuyIn ok");
                 int minRaise = gameState["minimum_raise"].ToObject<int>();
-                Console.Error.WriteLine("minRaise ok");
-
-                JToken ourPlayer = players[playerId];
-                Console.Error.WriteLine("ourPlayer ok");
-
-                //var ourHand = new JArray(ourPlayer.SelectToken("hole_cards").Values());
-                Console.Error.WriteLine("ourHand ok");
-                var firstCardRank = gameState.SelectToken("players["+playerId+ "].hole_cards[0].rank").ToObject<string>();
-                Console.Error.WriteLine("firstcard ok");
+                
+                var firstCardRank = gameState.SelectToken("players[" + playerId + "].hole_cards[0].rank").ToObject<string>();
                 var secondCardRank = gameState.SelectToken("players[" + playerId + "].hole_cards[1].rank").ToObject<string>();
-                Console.Error.WriteLine("secondcard ok");
+                var firstCardSuit = gameState.SelectToken("players[" + playerId + "].hole_cards[0].suit").ToObject<string>();
+                var secondCardSuit = gameState.SelectToken("players[" + playerId + "].hole_cards[1].suit").ToObject<string>();
 
-                Console.Error.WriteLine(firstCardRank);
-                Console.Error.WriteLine(secondCardRank);
+                if(currentBuyIn > 0 && weRaised)
+                {
+                    return currentBuyIn - gameState.SelectToken("players[" + playerId + "].bet").ToObject<int>();
+                }
 
                 if (firstCardRank.Equals(secondCardRank))
                 {
                     return currentBuyIn - gameState.SelectToken("players[" + playerId + "].bet").ToObject<int>() + minRaise;
+                    weRaised = true;
+                }
+
+                if (firstCardSuit.Equals(secondCardSuit))
+                {
+                    return currentBuyIn - gameState.SelectToken("players[" + playerId + "].bet").ToObject<int>() + minRaise;
+                    weRaised = true;
                 }
 
                 string[] highCards = new string[4] { "J", "K", "Q", "A" };
                 if (highCards.Contains(firstCardRank) || highCards.Contains(secondCardRank))
                 {
                     return currentBuyIn - gameState.SelectToken("players[" + playerId + "].bet").ToObject<int>() + minRaise;
+                    weRaised = true;
                 }
+
 
             }
             catch(Exception ex)
