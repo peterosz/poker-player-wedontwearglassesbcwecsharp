@@ -8,7 +8,7 @@ namespace Nancy.Simple
 {
 	public static class PokerPlayer
 	{
-		public static readonly string VERSION = "Beat yo' ass #1.6";
+		public static readonly string VERSION = "Beat yo' ass #1.7";
 
 		public static int BetRequest(JObject gameState)
 		{
@@ -16,7 +16,9 @@ namespace Nancy.Simple
             {
 
                 int playerId = gameState.GetValue("in_action").ToObject<int>();
+                Console.Error.WriteLine("playerId ok");
                 List<JToken> players = gameState.GetValue("players").Values().ToList();
+                Console.Error.WriteLine("players ok");
 
                 int currentBuyIn = gameState.GetValue("current_buy_in").ToObject<int>();
                 int minRaise = gameState.GetValue("minumum_raise").ToObject<int>();
