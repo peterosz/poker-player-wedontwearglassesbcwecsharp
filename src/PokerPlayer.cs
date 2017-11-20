@@ -8,7 +8,7 @@ namespace Nancy.Simple
 {
 	public static class PokerPlayer
 	{
-		public static readonly string VERSION = "Beat yo' ass #2.1.4";
+		public static readonly string VERSION = "Beat yo' ass #2.1.5";
         private static bool weRaised;
         private static int commCount = 0;
 
@@ -27,11 +27,8 @@ namespace Nancy.Simple
                 var secondCardRank = gameState.SelectToken("players[" + playerId + "].hole_cards[1].rank").ToObject<string>();
                 var firstCardSuit = gameState.SelectToken("players[" + playerId + "].hole_cards[0].suit").ToObject<string>();
                 var secondCardSuit = gameState.SelectToken("players[" + playerId + "].hole_cards[1].suit").ToObject<string>();
-
-                Console.Error.WriteLine("commCount: " + commCount);
-                Console.Error.WriteLine("commCards.Count: " + commCards.Count());
-                Console.Error.WriteLine(weRaised);
-                if (commCount != commCards.Count && weRaised)
+                
+                if (commCount != commCards.Count)
                 {
                     commCount = commCards.Count;
                     weRaised = false;
